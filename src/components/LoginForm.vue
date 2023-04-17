@@ -3,11 +3,11 @@
     <div class="form-wrapper form-wrapper-sm">
       <form @submit.prevent="submitForm" class="form">
         <div>
-          <label for="username">id:</label>
-          <input id="username" type="text" v-model="username" />
+          <label for="nickname">id:</label>
+          <input id="nickname" type="text" v-model="nickname" />
           <p class="validation-text">
-            <span class="warning" v-if="!isUsernameValid && username">
-              Please enter an email address
+            <span class="warning" v-if="!isUsernameValid && nickname">
+              Please enter an nickname
             </span>
           </p>
         </div>
@@ -15,11 +15,7 @@
           <label for="password">pw:</label>
           <input id="password" type="text" v-model="password" />
         </div>
-        <button
-          :disabled="!isUsernameValid || !password"
-          type="submit"
-          class="btn"
-        >
+        <button type="submit" class="btn">
           로그인
         </button>
       </form>
@@ -29,13 +25,13 @@
 </template>
 
 <script>
-import { validateEmail } from '@/utils/validation';
+import { validateNickName } from '@/utils/validation';
 
 export default {
   data() {
     return {
       // form values
-      username: '',
+      nickname: '',
       password: '',
       // log
       logMessage: '',
@@ -43,7 +39,7 @@ export default {
   },
   computed: {
     isUsernameValid() {
-      return validateEmail(this.username);
+      return validateNickName(this.nickname);
     },
   },
   methods: {
@@ -51,21 +47,20 @@ export default {
       try {
         // 비즈니스 로직
         const userData = {
-          username: this.username,
+          nickname: this.nickname,
           password: this.password,
         };
         await this.$store.dispatch('LOGIN', userData);
         this.$router.push('/main');
       } catch (error) {
         // 에러 핸들링할 코드
-        console.log(error.response.data);
-        this.logMessage = error.response.data;
+        //this.logMessage = error.response.data.msg;
       } finally {
         this.initForm();
       }
     },
     initForm() {
-      this.username = '';
+      this.nickname = '';
       this.password = '';
     },
   },
