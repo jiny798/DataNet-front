@@ -3,4 +3,14 @@ function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
-export { validateEmail };
+function validateNickName(id) {
+  const idRegExp = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
+  return idRegExp.test(id);
+}
+
+function validatePw(pw) {
+  const idRegExp = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]+$/;
+  return idRegExp.test(pw);
+}
+
+export { validateEmail, validateNickName, validatePw };
