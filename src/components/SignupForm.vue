@@ -69,22 +69,30 @@ export default {
   },
   methods: {
     async submitForm() {
-      const userData = {
-        nickname: this.nickname,
-        email: this.email,
-        password: this.password,
-      };
-      const response = await registerUser(userData);
-      console.log(response);
-      this.logMessage = `${response.data.data.nickname} 님이 가입되었습니다`;
-      if (
-        this.logMessage == 'undefined' ||
-        this.logMessage == '' ||
-        this.logMessage == null
-      ) {
-        this.logMessage = `${response.data.data.msg}`;
+      try {
+        const userData = {
+          nickname: this.nickname,
+          email: this.email,
+          password: this.password,
+        };
+        const response = await registerUser(userData);
+        console.log(response);
+        console.log(response.code);
+        this.logMessage = `${response.data.data.nickname} 님이 가입되었습니다`;
+        if (
+          this.logMessage == 'undefined' ||
+          this.logMessage == '' ||
+          this.logMessage == null
+        ) {
+          this.logMessage = `${response.data.data.msg}`;
+        }
+        this.initForm();
+      } catch (error) {
+        var data = error.response.data;
+        if (data.code == 409) {
+          this.logMessage = data.msg;
+        }
       }
-      this.initForm();
     },
     initForm() {
       this.email = '';
